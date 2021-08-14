@@ -187,20 +187,20 @@ flashsearch.searchResultsTemplates = {
   `,
 
   "fs-search-section": `
-<div class="fs-search-section-wrapper">
+<div class="fs-search-section">
   <!-- Skeleton: Search header -->
   <div
     v-if="isLoading && enableSearchPageHeader"
-    class="fs-search-section-wrapper"
+    class="fs-search-section"
   >
-    <h1 class="fs-search-result-header">
+    <h1 class="fs-search-result-header fs-search-section__header">
       <fs-custom-skeleton class="fs-skeleton-search-result-header" />
     </h1>
   </div>
   <!-- Search result header -->
   <h1
     v-else-if="enableSearchPageHeader"
-    class="fs-search-result-header"
+    class="fs-search-result-header fs-search-section__header"
     data-testid="sr-search-page-header"
   >
     {{$t("searchResults.searchPageHeader.pageHeader", {count: totalProducts,
@@ -469,7 +469,7 @@ flashsearch.searchResultsTemplates = {
     </template>
     <template v-for="(filter, index) in filters" :key="'' + index">
       <fs-collapse-panel
-        v-show="!isFilterEmpty(filter)"
+        v-if="!isFilterEmpty(filter)"
         class="fs-filter"
       >
         <template #header>
@@ -659,7 +659,7 @@ flashsearch.searchResultsTemplates = {
   // Filter types
   "fs-filter-collection": `
 <div
-  class="fs-filter__content fs-filter__content--list fs-filter-collection__content"
+  class="fs-filter__content fs-filter-collection__content"
   :class="{'fs-filter--screen-mobile': isMobile}"
 >
   <div class="fs-filter__content">
@@ -778,7 +778,7 @@ flashsearch.searchResultsTemplates = {
 
   "fs-filter-list": `
 <div
-  class="fs-filter__content fs-filter__content--list"
+  class="fs-filter__content"
   :class="{'fs-filter__content--multiple-list': filter.multipleSelection}"
 >
   <fs-input
@@ -790,7 +790,7 @@ flashsearch.searchResultsTemplates = {
     data-testid="filter-searchbox"
   />
   <div
-    class="fs-filter__content-inner"
+    class="fs-filter__content-inner fs-filter-list__content-inner"
     :class="{'fs-filter__content-inner--scrollable': shouldUseScrollbar}"
     data-testid="filter-content"
   >
@@ -960,7 +960,7 @@ flashsearch.searchResultsTemplates = {
 
   "fs-filter-stock-status": `
 <div
-  class="fs-filter__content fs-filter__content--list fs-filter__content--multiple-list"
+  class="fs-filter__content fs-filter__content--multiple-list"
 >
   <div class="fs-filter__content-inner" data-testid="filter-content">
     <fs-row data-testid="option-groups">
@@ -1803,34 +1803,36 @@ flashsearch.searchResultsTemplates = {
         :xs="24"
         class="fs-sr-list-item__col--center"
       >
-        <!-- Title -->
-        <fs-product-title
-          :url="product.url"
-          :title="product.title"
-          class="fs-sr-list-item__title"
-        />
-         <!-- Review rate -->
-        <fs-sr-review-rate
-          v-if="enableReviewRating"
-          class="fs-sr-list-item__review-rate"
-          :count="product.reviewCount"
-          :rate="product.reviewRatings"
-          :reviews-text='$t("searchResults.listViewProductItem.rateReviews")'
-          :review-text='$t("searchResults.listViewProductItem.rateReview")'
-          :no-reviews-text='$t("searchResults.listViewProductItem.rateNoReviews")'
-        />
-        <!-- Vendor -->
-        <fs-product-vendor
-          v-if="enableVendor"
-          :vendor="product.vendor"
-          class="fs-sr-list-item__vendor"
-        />
-        <!-- Description -->
-        <fs-product-description
-          v-if="enableDescription"
-          class="fs-sr-list-item__description"
-          :description="product.description"
-        />
+        <div class="fs-sr-list-item__info">
+          <!-- Title -->
+          <fs-product-title
+            :url="product.url"
+            :title="product.title"
+            class="fs-sr-list-item__title"
+          />
+          <!-- Review rate -->
+          <fs-sr-review-rate
+            v-if="enableReviewRating"
+            class="fs-sr-list-item__review-rate"
+            :count="product.reviewCount"
+            :rate="product.reviewRatings"
+            :reviews-text='$t("searchResults.listViewProductItem.rateReviews")'
+            :review-text='$t("searchResults.listViewProductItem.rateReview")'
+            :no-reviews-text='$t("searchResults.listViewProductItem.rateNoReviews")'
+          />
+          <!-- Vendor -->
+          <fs-product-vendor
+            v-if="enableVendor"
+            :vendor="product.vendor"
+            class="fs-sr-list-item__vendor"
+          />
+          <!-- Description -->
+          <fs-product-description
+            v-if="enableDescription"
+            class="fs-sr-list-item__description"
+            :description="product.description"
+          />
+        </div>
       </fs-col>
       <fs-col
         :xl="6"
@@ -2221,7 +2223,7 @@ flashsearch.instantSearchTemplates = {
       :src="product.featuredImage.originalSrc"
     />
   </div>
-  <div class="fs-is-product-info">
+  <div class="fs-is-product-info fs-is-product-item__info">
     <!-- Title -->
     <div class="fs-is-product-title fs-is-product-item__title" data-testid="is-product-title">
       {{product.title}}
