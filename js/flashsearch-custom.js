@@ -1434,20 +1434,22 @@ flashsearch.searchResultsTemplates = {
     `,
 
   "fs-product-image": `
-<a class="fs-product-image__main-image-wrapper" :href="productUrl">
+<div>
+  <a class="fs-product-image__main-image-wrapper" :href="productUrl">
+    <div
+      class="fs-product-image__main-image"
+      :style="{'background-image': 'url(' + mainProductImage + ')'}"
+    />
+  </a>
   <div
-    class="fs-product-image__main-image"
-    :style="{'padding-top': '127.586%', 'background-image': 'url(' + mainProductImage + ')'}"
-  />
-</a>
-<div
-  v-if="secondProductImage"
-  class="fs-product-image__hover-image-wrapper"
->
-  <div
-    class="fs-product-image__hover-image"
-    :style="{'padding-top': '127.586%', 'background-image': 'url(' + secondProductImage + ')'}"
-  />
+    v-if="secondProductImage"
+    class="fs-product-image__hover-image-wrapper"
+  >
+    <div
+      class="fs-product-image__hover-image"
+      :style="{'background-image': 'url(' + secondProductImage + ')'}"
+    />
+  </div>
 </div>
     `,
 
@@ -1541,7 +1543,7 @@ flashsearch.searchResultsTemplates = {
           <div class="fs-quickview-thumbs-item-wrapper">
             <span
               class="fs-quickview-thumbs-item"
-              :style="{'padding-top': '127.586%', 'background-image': 'url(' + fsUtils.getSizedImageUrl(image.originalSrc, '540x') + ')', 'background-repeat': 'no-repeat'}"
+              :style="{'background-image': 'url(' + fsUtils.getSizedImageUrl(image.originalSrc, '540x') + ')', 'background-repeat': 'no-repeat'}"
             />
           </div>
         </div>
@@ -1699,6 +1701,7 @@ flashsearch.searchResultsTemplates = {
         :sale-text='$t("searchResults.gridViewProductItem.sale")'
       />
       <fs-product-image
+        class="fs-sr-grid-item__image"
         :product-url="product.url"
         :main-product-image="mainProductImage"
         :second-product-image="secondProductImage"
@@ -1789,6 +1792,7 @@ flashsearch.searchResultsTemplates = {
             :sale-text='$t("searchResults.listViewProductItem.sale")'
           />
           <fs-product-image
+            class="fs-sr-list-item__image"
             :product-url="product.url"
             :main-product-image="mainProductImage"
             :second-product-image="secondProductImage"
