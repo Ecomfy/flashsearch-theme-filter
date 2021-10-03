@@ -2232,16 +2232,42 @@ flashsearch.instantSearchTemplates = {
     class="fs-is-product-image-wrapper"
     data-testid="is-product-image"
   >
-    <img
-      alt=""
-      class="fs-is-product-image"
-      :src="product.featuredImage.originalSrc"
-    />
+    <span class="fs-is-product-image-inner">
+      <!-- Product label for vertical layout -->
+      <fs-product-label
+        v-if="isVerticalLayout"
+        class="fs-is-product-label fs-is-product-item__product-label"
+        :available-for-sale="product.availableForSale"
+        :on-sale="onSale"
+        :enable-sold-out-label="enableSoldOutLabel"
+        :enable-sale-label="enableSaleLabel"
+        :sold-out-text='$t("instantSearch.soldOut")'
+        :sale-text='$t("instantSearch.sale")'
+      />
+      <img
+        alt=""
+        class="fs-is-product-image"
+        :src="product.featuredImage.originalSrc"
+      />
+    </span>
   </div>
   <div class="fs-is-product-info fs-is-product-item__info">
-    <!-- Title -->
-    <div class="fs-is-product-title fs-is-product-item__title" data-testid="is-product-title">
-      {{product.title}}
+    <div class="fs-is-product-item__info-head">
+      <!-- Title -->
+      <div class="fs-is-product-title fs-is-product-item__title" data-testid="is-product-title">
+        {{product.title}}
+      </div>
+      <!-- Product label for horizontal layout -->
+      <fs-product-label
+        v-if="!isVerticalLayout"
+        class="fs-is-product-label fs-is-product-item__product-label"
+        :available-for-sale="product.availableForSale"
+        :on-sale="onSale"
+        :enable-sold-out-label="enableSoldOutLabel"
+        :enable-sale-label="enableSaleLabel"
+        :sold-out-text='$t("instantSearch.soldOut")'
+        :sale-text='$t("instantSearch.sale")'
+      />
     </div>
     <!-- Review rate -->
     <fs-is-review-rate
