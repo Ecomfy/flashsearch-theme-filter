@@ -2338,7 +2338,6 @@ flashsearch.instantSearchTemplates = {
   :enable="doesShowWidget"
   :input-elem="inputElem"
   :position="position"
-  :width="WIDGET_WIDTH"
 />
     `,
 
