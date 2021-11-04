@@ -1500,7 +1500,33 @@ flashsearch.searchResultsTemplates = {
   `,
 
   "fs-product-description": `
-<div class="fs-ellipsis-text fs-product-description" v-html="description" data-testid="sr-product-desc"/>
+<div class="fs-ellipsis-text fs-product-description" data-testid="sr-product-desc">{{description.replace(/<[^>]*>/g, "")}}</div>
+  `,
+
+  "fs-product-color": `
+<fs-tooltip
+  :title="showTooltip ? color: undefined"
+  overlay-class-name="fs-filter-option__tooltip"
+>
+  <span @mouseover="onSelect" class="fs-product-color" :class="{'fs-product-color--selected': isSelected}">
+    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color)}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : {'background-color': color}">
+    </span>
+  </span>
+</fs-tooltip>
+  `,
+
+  "fs-product-colors": `
+<div class="fs-product-colors" v-if="getColorOptionValues(product.options).length > 1">
+  <fs-product-color
+  v-for="(color, index) in getColorOptionValues(product.options)"
+  :key="index"
+  :color="color"
+  :product="product"
+  :is-selected="isSelectedItemColor(color)"
+  @on-select="onSelectItemColor(color)"
+  :show-tooltip="true"
+/>
+</div>
   `,
 
   "fs-quick-view-item": `
@@ -1759,6 +1785,8 @@ flashsearch.searchResultsTemplates = {
         :enable-compare-at-price="enableCompareAtPrice"
         data-testid-prefix="sr"
       />
+      <!-- product color -->
+      <fs-product-colors :product="product"/>
     </div>
   </div>
 </fs-col>
@@ -1847,6 +1875,8 @@ flashsearch.searchResultsTemplates = {
             class="fs-sr-list-item__description"
             :description="product.description"
           />
+          <!-- product color -->
+          <fs-product-colors :product="product"/>
         </div>
       </fs-col>
       <fs-col
