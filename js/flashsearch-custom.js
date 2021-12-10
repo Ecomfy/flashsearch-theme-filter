@@ -1375,58 +1375,104 @@ flashsearch.searchResultsTemplates = {
     `,
 
   "fs-product-buttons": `
-<div class="fs-product-button-wrapper">
-  <a
-    v-if="enableQuickView"
-    class="fs-product-button fs-product-button--type-quick-view"
-    rel="nofollow"
-    @click="showQuickView"
-    data-testid="sr-quick-view-btn"
-  >
-    <fs-eye-outlined class="fs-product-button__icon" />
-    <span class="fs-product-button__text" data-testid="sr-quick-view-text">{{quickViewText}}</span>
-  </a>
-  <span v-if="product.availableForSale && enableAddToCart">
+<div :class="['fs-product-button-wrapper', 'fs-product-button-desktop-' + buttonDesignDesktop, 'fs-product-button-mobile-' + buttonDesignMobile]" v-bind="$attrs">
+  <fs-tooltip v-if="enableQuickView" :title="quickViewText" :overlay-class-name="'fs-product-button-tooltip' + ' fs-product-button-tooltip-desktop-' + buttonDesignDesktop" :placement="buttonDesignDesktop === 'design-7' ? 'left': undefined">
     <a
-      v-if="product.variants.length > 1"
+      class="fs-product-button fs-product-button--type-quick-view"
+      rel="nofollow"
+      @click="showQuickView"
+      data-testid="sr-quick-view-btn"
+    >
+      <fs-eye-outlined class="fs-product-button__icon" />
+      <span class="fs-product-button__text" data-testid="sr-quick-view-text">{{quickViewText}}</span>
+    </a>
+  </fs-tooltip>
+  <template v-if="product.availableForSale && enableAddToCart">
+    <fs-tooltip v-if="product.variants.length > 1" :title="selectOptionsText" :overlay-class-name="'fs-product-button-tooltip' + ' fs-product-button-tooltip-desktop-' + buttonDesignDesktop" >
+      <a
+        class="fs-product-button fs-product-button--type-atc"
+        :href="product.url"
+        rel="nofollow"
+        data-testid="sr-atc-btn"
+        @click="onSelectOptions"
+      >
+        <fs-shopping-cart-outlined class="fs-product-button__icon" />
+        <span class="fs-product-button__text" data-testid="sr-atc-text">{{selectOptionsText}}</span>
+      </a>
+    </fs-tooltip>
+    <fs-tooltip v-else :title="addToCartText" :overlay-class-name="'fs-product-button-tooltip' + ' fs-product-button-tooltip-desktop-' + buttonDesignDesktop" >
+      <form
+        method="post"
+        action="/cart/add"
+        acceptCharset="UTF-8"
+        enctype="multipart/form-data"
+        class="fs-product-button fs-product-button--type-atc"
+        :id="'fs-product-form-' + currentVariant.id"
+        @click="onSubmit"
+        data-testid="sr-atc-btn"
+      >
+        <fs-shopping-cart-outlined class="fs-product-button__icon" />
+        <input type="hidden" name="form_type" value="product" />
+        <input type="hidden" name="quantity" value="1" min="1" />
+        <input type="hidden" name="id" :value="currentVariant.id" />
+        <span class="fs-product-button__text" data-testid="sr-atc-text">{{addToCartText}}</span>
+      </form>
+    </fs-tooltip>
+  </template>
+  <fs-tooltip v-else-if="enableAddToCart" :title="readMoreText" :overlay-class-name="'fs-product-button-tooltip' + ' fs-product-button-tooltip-desktop-' + buttonDesignDesktop" >
+    <a
       class="fs-product-button fs-product-button--type-atc"
       :href="product.url"
       rel="nofollow"
       data-testid="sr-atc-btn"
-      @click="onSelectOptions"
+      @click="onReadMore"
     >
-      <fs-shopping-cart-outlined class="fs-product-button__icon" />
-      <span class="fs-product-button__text" data-testid="sr-atc-text">{{selectOptionsText}}</span>
+      <fs-info-circle-outlined class="fs-product-button__icon" />
+      <span class="fs-product-button__text" data-testid="sr-atc-text">{{readMoreText}}</span>
     </a>
-    <form
-      v-else
-      method="post"
-      action="/cart/add"
-      acceptCharset="UTF-8"
-      enctype="multipart/form-data"
-      class="fs-product-button fs-product-button--type-atc"
-      :id="'fs-product-form-' + currentVariant.id"
-      @click="onSubmit"
-      data-testid="sr-atc-btn"
-    >
-      <fs-shopping-cart-outlined class="fs-product-button__icon" />
-      <input type="hidden" name="form_type" value="product" />
-      <input type="hidden" name="quantity" value="1" min="1" />
-      <input type="hidden" name="id" :value="currentVariant.id" />
-      <span class="fs-product-button__text" data-testid="sr-atc-text">{{addToCartText}}</span>
-    </form>
-  </span>
-  <a
-    v-else-if="enableAddToCart"
-    class="fs-product-button fs-product-button--type-atc"
-    :href="product.url"
-    rel="nofollow"
-    data-testid="sr-atc-btn"
-    @click="onReadMore"
-  >
-    <fs-info-circle-outlined class="fs-product-button__icon" />
-    <span class="fs-product-button__text" data-testid="sr-atc-text">{{readMoreText}}</span>
-  </a>
+  </fs-tooltip>
+</div>
+<!-- Add to cart button at bottom -->
+<div v-if="enableAddToCart && (buttonDesignDesktop === 'design-7' || buttonDesignMobile === 'design-7')" :class="['fs-product-button-atc-bottom-wrapper', 'fs-product-button-desktop-' + buttonDesignDesktop, 'fs-product-button-mobile-' + buttonDesignMobile]" v-bind="$attrs">
+  <div class="fs-product-button-atc-bottom">
+    <template v-if="product.availableForSale">
+      <a
+        v-if="product.variants.length > 1"
+        class="fs-product-button-atc-bottom-inner ajax_add_to_cart"
+        :href="product.url"
+        rel="nofollow"
+        @click="onSelectOptions"
+      >
+        {{selectOptionsText}}
+      </a>
+      <a v-else class="fs-product-button-atc-bottom-inner ajax_add_to_cart">
+        <form
+          method="post"
+          action="/cart/add"
+          acceptCharset="UTF-8"
+          enctype="multipart/form-data"
+          :id="'fs-product-form-' + currentVariant.id"
+          @click="onSubmit"
+          data-testid="sr-atc-btn"
+        >
+          <input type="hidden" name="form_type" value="product" />
+          <input type="hidden" name="quantity" value="1" min="1" />
+          <input type="hidden" name="id" :value="currentVariant.id" />
+          <span class="fs-product-button__text" data-testid="sr-atc-text">{{addToCartText}}</span>
+        </form>
+      </a>
+    </template>
+    <template v-else>
+      <a
+        class="fs-product-button-atc-bottom-inner ajax_add_to_cart"
+        :href="product.url"
+        rel="nofollow"
+        @click="onReadMore"
+      >
+        {{readMoreText}}
+      </a>
+    </template>
+  </div>
 </div>
     `,
 
@@ -1739,6 +1785,8 @@ flashsearch.searchResultsTemplates = {
         :select-options-text='$t("searchResults.gridViewProductItem.selectOptions")'
         :add-to-cart-text='$t("searchResults.gridViewProductItem.addToCart")'
         :read-more-text='$t("searchResults.gridViewProductItem.readMore")'
+        :button-design-desktop="productButtonDesignDesktop"
+        :button-design-mobile="productButtonDesignMobile"
       />
     </div>
     <div class="fs-sr-grid-item__info">
@@ -1832,6 +1880,8 @@ flashsearch.searchResultsTemplates = {
             :select-options-text='$t("searchResults.listViewProductItem.selectOptions")'
             :add-to-cart-text='$t("searchResults.listViewProductItem.addToCart")'
             :read-more-text='$t("searchResults.listViewProductItem.readMore")'
+            :button-design-desktop="productButtonDesignDesktop"
+            :button-design-mobile="productButtonDesignMobile"
           />
         </div>
       </fs-col>
