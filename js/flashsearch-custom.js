@@ -2533,7 +2533,7 @@ flashsearch.instantSearchTemplates = {
   `,
 
   "fs-is-item": `
-<div @mousedown="onClickItem" class="fs-is-item">
+<div @click="onClickItem" class="fs-is-item">
   <slot />
 </div>
     `,
