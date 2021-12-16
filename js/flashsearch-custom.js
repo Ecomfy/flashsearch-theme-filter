@@ -1551,26 +1551,28 @@ flashsearch.searchResultsTemplates = {
   :title="showTooltip ? color: undefined"
   overlay-class-name="fs-filter-option__tooltip"
 >
-  <span @mouseover="onSelect" class="fs-product-color" :class="{'fs-product-color--selected': isSelected}">
-    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color)}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : {'background-color': color}">
+  <span @mouseover="onSelect" class="fs-product-color" :class="{'fs-product-color--selected': isSelected, ['fs-product-color-' + swatchStyle]: true}">
+    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color), ['fs-product-color-' + swatchSize]: true}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : {'background-color': color}">
     </span>
   </span>
 </fs-tooltip>
   `,
 
   "fs-product-colors": `
-<div class="fs-product-colors" v-if="getColorOptionValues(product.options).length > 1">
+<div class="fs-product-colors" v-if="getVariantColors(product).length > 0">
   <fs-product-color
-  v-for="(color, index) in getColorOptionValues(product.options)"
+  v-for="(color, index) in getVariantColors(product)"
   :key="index"
   :color="color"
-  :product="product"
   :is-selected="isSelectedItemColor(color)"
   @on-select="onSelectItemColor(color)"
   :show-tooltip="true"
+  :imageUrl="swatchLayoutType === 'swatch-variant-image' && getVariantsByColor(product, color).length > 0 ? getVariantsByColor(product, color)[0].image.originalSrc : undefined"
+  :swatchSize="swatchSize"
+  :swatchStyle="swatchStyle"
 />
 </div>
-  `,
+    `,
 
   "fs-quick-view-item": `
 <fs-modal
@@ -1831,7 +1833,15 @@ flashsearch.searchResultsTemplates = {
         data-testid-prefix="sr"
       />
       <!-- product color -->
-      <fs-product-colors :product="product"/>
+      <fs-product-colors
+       v-if="productColorEnable"
+       :product="product"
+       :show-type="productColorShowType"
+       :swatch-layout-type="productColorSwatchLayoutType"
+       :swatch-size="productColorSwatchSize"
+       :swatch-style="productColorSwatchStyle"
+       :color-variant-names="productColorOptionNames"
+      />
     </div>
   </div>
 </fs-col>
@@ -1935,7 +1945,15 @@ flashsearch.searchResultsTemplates = {
             :description="product.description"
           />
           <!-- product color -->
-          <fs-product-colors :product="product"/>
+          <fs-product-colors
+            v-if="productColorEnable"
+            :product="product"
+            :show-type="productColorShowType"
+            :swatch-layout-type="productColorSwatchLayoutType"
+            :swatch-size="productColorSwatchSize"
+            :swatch-style="productColorSwatchStyle"
+            :color-variant-names="productColorOptionNames"
+         />
         </div>
       </fs-col>
     </fs-row>
