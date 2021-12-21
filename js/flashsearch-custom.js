@@ -1481,7 +1481,7 @@ flashsearch.searchResultsTemplates = {
   <a class="fs-product-image__main-image-wrapper" :href="productUrl">
     <div
       class="fs-product-image__main-image"
-      :style="{'background-image': 'url(' + mainProductImage + ')'}"
+      :style="{'background-image': 'url(' + mainProductImage + ')', 'padding-top': (1/mainProductImageAspectRatio)*100 + '%' }"
     />
   </a>
   <div
@@ -1620,7 +1620,7 @@ flashsearch.searchResultsTemplates = {
           <div class="fs-quickview-thumbs-item-wrapper">
             <span
               class="fs-quickview-thumbs-item"
-              :style="{'background-image': 'url(' + fsUtils.getSizedImageUrl(image.originalSrc, '540x') + ')', 'background-repeat': 'no-repeat'}"
+              :style="{'background-image': 'url(' + fsUtils.getSizedImageUrl(image.originalSrc, '540x') + ')', 'background-repeat': 'no-repeat', 'padding-top': isAspectRatioAdaptToImage ? ((image.width/image.height) ? (1/(image.width/image.height))*100 + '%' : undefined) : undefined}"
             />
           </div>
         </div>
@@ -1782,6 +1782,8 @@ flashsearch.searchResultsTemplates = {
         :product-url="product.url"
         :main-product-image="mainProductImage"
         :second-product-image="secondProductImage"
+        :main-product-image-aspect-ratio="isAspectRatioAdaptToImage ? mainProductImageAspectRatio : undefined"
+        :second-product-image-aspect-ratio="isAspectRatioAdaptToImage ? secondProductImageAspectRatio : undefined"
       />
       <fs-product-buttons
         class="fs-sr-grid-item__product-buttons"
@@ -1895,6 +1897,8 @@ flashsearch.searchResultsTemplates = {
             :product-url="product.url"
             :main-product-image="mainProductImage"
             :second-product-image="secondProductImage"
+            :main-product-image-aspect-ratio="isAspectRatioAdaptToImage ? mainProductImageAspectRatio : undefined"
+            :second-product-image-aspect-ratio="isAspectRatioAdaptToImage ? secondProductImageAspectRatio : undefined"
           />
           <fs-product-buttons
             class="fs-sr-list-item__product-buttons"
