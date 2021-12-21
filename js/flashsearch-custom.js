@@ -1574,6 +1574,12 @@ flashsearch.searchResultsTemplates = {
 </div>
     `,
 
+  "fs-product-sizes": `
+<div class="fs-product-sizes" v-if="getVariantSizes(product).length > 0">
+  <span class="fs-product-sizes__text">{{getVariantSizes(product).join(", ")}}</span>
+</div>
+    `,
+
   "fs-quick-view-item": `
 <fs-modal
   class="fs-quickview__modal"
@@ -1790,6 +1796,16 @@ flashsearch.searchResultsTemplates = {
         :button-design-desktop="productButtonDesignDesktop"
         :button-design-mobile="productButtonDesignMobile"
       />
+      <!-- product size -->
+      <fs-product-sizes
+       v-if="productSizeEnable"
+       :product="product"
+       :show-type="productSizeShowType"
+       :size-variant-names="productSizeOptionNames"
+       :color="productSizeColor"
+       :font-size="productSizeFontSize"
+       :font-weight="productSizeFontWeight"
+      />
     </div>
     <div class="fs-sr-grid-item__info">
       <!-- Title -->
@@ -1892,6 +1908,16 @@ flashsearch.searchResultsTemplates = {
             :read-more-text='$t("searchResults.listViewProductItem.readMore")'
             :button-design-desktop="productButtonDesignDesktop"
             :button-design-mobile="productButtonDesignMobile"
+          />
+          <!-- product size -->
+          <fs-product-sizes
+           v-if="productSizeEnable"
+           :product="product"
+           :show-type="productSizeShowType"
+           :size-variant-names="productSizeOptionNames"
+           :color="productSizeColor"
+           :font-size="productSizeFontSize"
+           :font-weight="productSizeFontWeight"
           />
         </div>
       </fs-col>
@@ -2053,71 +2079,81 @@ flashsearch.searchResultsTemplates = {
 <div v-if="enable" class="fs-sr-views">
   <div class="fs-sr-views-screen fs-sr-views-screen--desktop">
     <span
+      v-if="enableListView"
       @click.prevent="onSelectListView"
       class="fs-sr-view-item fs-sr-view-list"
       :class="{'fs-sr-view-item--active': isListView}"
     ></span>
-    <span
-      @click.prevent="onSelectGridView2"
-      class="fs-sr-view-item fs-sr-view-grid-2"
-      :class="{'fs-sr-view-item--active': isGridView2}"
-    ></span>
-    <span
-      @click.prevent="onSelectGridView3"
-      class="fs-sr-view-item fs-sr-view-grid-3"
-      :class="{'fs-sr-view-item--active': isGridView3}"
-    ></span>
-    <span
-      @click.prevent="onSelectGridView4"
-      class="fs-sr-view-item fs-sr-view-grid-4"
-      :class="{'fs-sr-view-item--active': isGridView4}"
-    ></span>
-    <span
-      v-if="!isVerticalLeftLayout"
-      @click.prevent="onSelectGridView6"
-      class="fs-sr-view-item fs-sr-view-grid-6"
-      :class="{'fs-sr-view-item--active': isGridView6}"
-    ></span>
+    <template v-if="enableGridView">
+      <span
+        @click.prevent="onSelectGridView2"
+        class="fs-sr-view-item fs-sr-view-grid-2"
+        :class="{'fs-sr-view-item--active': isGridView2}"
+      ></span>
+      <span
+        @click.prevent="onSelectGridView3"
+        class="fs-sr-view-item fs-sr-view-grid-3"
+        :class="{'fs-sr-view-item--active': isGridView3}"
+      ></span>
+      <span
+        @click.prevent="onSelectGridView4"
+        class="fs-sr-view-item fs-sr-view-grid-4"
+        :class="{'fs-sr-view-item--active': isGridView4}"
+      ></span>
+      <span
+        v-if="!isVerticalLeftLayout"
+        @click.prevent="onSelectGridView6"
+        class="fs-sr-view-item fs-sr-view-grid-6"
+        :class="{'fs-sr-view-item--active': isGridView6}"
+      ></span>
+    </template>
   </div>
+
   <div class="fs-sr-views-screen fs-sr-views-screen--tablet">
     <span
+      v-if="enableListView"
       @click.prevent="onSelectListView"
       class="fs-sr-view-item fs-sr-view-list"
       :class="{'fs-sr-view-item--active': isListView}"
     ></span>
-    <span
-      @click.prevent="onSelectGridView2"
-      class="fs-sr-view-item fs-sr-view-grid-2"
-      :class="{'fs-sr-view-item--active': isGridView2}"
-    ></span>
-    <span
-      @click.prevent="onSelectGridView3"
-      class="fs-sr-view-item fs-sr-view-grid-3"
-      :class="{'fs-sr-view-item--active': isGridView3}"
-    ></span>
-    <span
-      @click.prevent="onSelectGridView4"
-      class="fs-sr-view-item fs-sr-view-grid-4"
-      :class="{'fs-sr-view-item--active': isGridView4}"
-    ></span>
+    <template v-if="enableGridView">
+      <span
+        @click.prevent="onSelectGridView2"
+        class="fs-sr-view-item fs-sr-view-grid-2"
+        :class="{'fs-sr-view-item--active': isGridView2}"
+      ></span>
+      <span
+        @click.prevent="onSelectGridView3"
+        class="fs-sr-view-item fs-sr-view-grid-3"
+        :class="{'fs-sr-view-item--active': isGridView3}"
+      ></span>
+      <span
+        @click.prevent="onSelectGridView4"
+        class="fs-sr-view-item fs-sr-view-grid-4"
+        :class="{'fs-sr-view-item--active': isGridView4}"
+      ></span>
+    </template>
   </div>
 
   <div class="fs-sr-views-screen fs-sr-views-screen--mobile">
     <span
+      v-if="enableListView"
       @click.prevent="onSelectListView"
       class="fs-sr-view-item fs-sr-view-list"
       :class="{'fs-sr-view-item--active': isListView}"
     ></span>
-    <span
-      @click.prevent="onSelectGridView1"
-      class="fs-sr-view-item fs-sr-view-grid-1"
-      :class="{'fs-sr-view-item--active': isGridView1}"
-    ></span>
-    <span
-      @click.prevent="onSelectGridView2"
-      class="fs-sr-view-item fs-sr-view-grid-2"
-      :class="{'fs-sr-view-item--active': isGridView2}"
-    ></span>
+    <template v-if="enableGridView">
+      <span
+        @click.prevent="onSelectGridView1"
+        class="fs-sr-view-item fs-sr-view-grid-1"
+        :class="{'fs-sr-view-item--active': isGridView1}"
+      ></span>
+      <span
+        @click.prevent="onSelectGridView2"
+        class="fs-sr-view-item fs-sr-view-grid-2"
+        :class="{'fs-sr-view-item--active': isGridView2}"
+      ></span>
+    </template>
   </div>
 </div>
     `,
