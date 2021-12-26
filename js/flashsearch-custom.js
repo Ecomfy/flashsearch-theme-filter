@@ -1500,17 +1500,23 @@ flashsearch.searchResultsTemplates = {
 <span class="fs-label-wrapper">
   <span
     v-if="!availableForSale && enableSoldOutLabel"
-    class="fs-label fs-label--soldOut"
+    :class="'fs-label fs-label--soldOut' + ' ' + 'fs-' + shape"
     :data-testid="soldOutDataTestid"
   >
-    {{soldOutText}}
+    {{$t("general.productLabel.soldOut")}}
   </span>
   <span
-    v-else-if="onSale && enableSaleLabel"
-    class="fs-label fs-label--onSale"
+    v-if="availableForSale && isNewProduct && enableNewLabel"
+    :class="'fs-label fs-label--new' + ' ' + 'fs-' + shape"
+  >
+    {{$t("general.productLabel.new")}}
+  </span>
+  <span
+    v-if="availableForSale && onSale && enableSaleLabel"
+    :class="'fs-label fs-label--onSale' + ' ' + 'fs-' + shape"
     :data-testid="saleDataTestid"
   >
-    {{saleText}}
+    {{saleLabelType === "percentage-label" ? $t("general.productLabel.salePercentage", {salePercentage: salePercentage}) : $t("general.productLabel.sale")}}
   </span>
 </span>
     `,
@@ -1597,15 +1603,17 @@ flashsearch.searchResultsTemplates = {
       class="fs-quickview-thumbs"
     >
       <fs-product-label
-        class="fs-label--top-left fs-quickview__product-label"
+        :class="'fs-label--' + productLabelPosition + ' fs-quickview__product-label'"
         :available-for-sale="product.availableForSale"
         :on-sale="onSale"
         :enable-sold-out-label="enableSoldOutLabel"
         :enable-sale-label="enableSaleLabel"
         sold-out-data-testid="sr-qv-product-label-sold-out"
         sale-data-testid="sr-qv-product-label-sale"
-        :sold-out-text='$t("searchResults.quickView.soldOutLabel")'
-        :sale-text='$t("searchResults.quickView.saleLabel")'
+        :product="product"
+        :current-variant="currentVariant"
+        :enable-new-label="enableNewLabel"
+        :shape="productLabelShape"
       />
       <fs-carousel arrows dot-position="bottom" :ref="el => caroRef = el">
         <template #prevArrow>
@@ -1769,13 +1777,17 @@ flashsearch.searchResultsTemplates = {
       class="fs-sr-item__image-wrapper fs-sr-grid-item__image-wrapper"
     >
       <fs-product-label
-        class="fs-label--top-left fs-sr-grid-item__product-label"
+        :class="'fs-label--' + productLabelPosition + ' fs-sr-grid-item__product-label'"
         :available-for-sale="product.availableForSale"
         :on-sale="onSale"
         :enable-sold-out-label="enableSoldOutLabel"
         :enable-sale-label="enableSaleLabel"
         :sold-out-text='$t("searchResults.gridViewProductItem.soldOut")'
         :sale-text='$t("searchResults.gridViewProductItem.sale")'
+        :product="product"
+        :current-variant="currentVariant"
+        :enable-new-label="enableNewLabel"
+        :shape="productLabelShape"
       />
       <fs-product-image
         class="fs-sr-grid-item__image"
@@ -1884,13 +1896,17 @@ flashsearch.searchResultsTemplates = {
           class="fs-sr-item__image-wrapper fs-sr-list-item__image-wrapper"
         >
           <fs-product-label
-            class="fs-label--top-left fs-sr-list-item__product-label"
+            :class="'fs-label--' + productLabelPosition + ' fs-sr-list-item__product-label'"
             :available-for-sale="product.availableForSale"
             :on-sale="onSale"
             :enable-sold-out-label="enableSoldOutLabel"
             :enable-sale-label="enableSaleLabel"
             :sold-out-text='$t("searchResults.listViewProductItem.soldOut")'
             :sale-text='$t("searchResults.listViewProductItem.sale")'
+            :product="product"
+            :current-variant="currentVariant"
+            :enable-new-label="enableNewLabel"
+            :shape="productLabelShape"
           />
           <fs-product-image
             class="fs-sr-list-item__image"
@@ -2440,8 +2456,10 @@ flashsearch.instantSearchTemplates = {
         :on-sale="onSale"
         :enable-sold-out-label="enableSoldOutLabel"
         :enable-sale-label="enableSaleLabel"
-        :sold-out-text='$t("instantSearch.soldOut")'
-        :sale-text='$t("instantSearch.sale")'
+        :product="product"
+        :current-variant="currentVariant"
+        :enable-new-label="enableNewLabel"
+        :shape="productLabelShape"
       />
       <img
         alt=""
@@ -2464,8 +2482,10 @@ flashsearch.instantSearchTemplates = {
         :on-sale="onSale"
         :enable-sold-out-label="enableSoldOutLabel"
         :enable-sale-label="enableSaleLabel"
-        :sold-out-text='$t("instantSearch.soldOut")'
-        :sale-text='$t("instantSearch.sale")'
+        :product="product"
+        :current-variant="currentVariant"
+        :enable-new-label="enableNewLabel"
+        :shape="productLabelShape"
       />
     </div>
     <!-- Review rate -->
