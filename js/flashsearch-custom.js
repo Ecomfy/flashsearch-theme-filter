@@ -22,7 +22,13 @@ flashsearch.commonTemplates = {
 
   "fs-price-range": `
 <p class="fs-price" :data-testid="buildDataTestId('price')">
-  <span v-if="priceVaries" class="fs-price--type-regular">
+  <template v-if="priceVaries && priceVariesFormat === 'from'">
+    <span class="fs-price--text">{{$t("general.price.from")}}</span>
+    <span class="fs-price--type-regular">&nbsp;
+    <span class="fs-price-min" v-html="fsUtils.formatDisplayMoney(priceMin)"/>
+    </span>
+  </template>
+  <span v-else-if="priceVaries" class="fs-price--type-regular">
     <span
       class="fs-price-min"
       v-html="fsUtils.formatDisplayMoney(priceMin)"
@@ -1311,7 +1317,7 @@ flashsearch.searchResultsTemplates = {
 </div>
 <div
   v-else-if="enable"
-  class="fs-sort-by"
+  :class="'fs-sort-by' + (shape ? ' fs-sort-by-shape-' + shape : '')"
   v-bind="$attrs"
   data-testid="sr-sort-by"
 >
@@ -1767,14 +1773,14 @@ flashsearch.searchResultsTemplates = {
   :md="gridViewTabletColl"
   :sm="gridViewMobileColl"
   :xs="gridViewMobileColl"
-  class="fs-sr-item-wrapper fs-sr-grid-item-wrapper"
+  :class="'fs-sr-item-wrapper' + (borderType === 'around-grid' ? ' fs-sr-item-bordered' : '') + ' fs-sr-grid-item-wrapper'"
   data-testid="grid-view-item"
   @click="onClickItem"
 >
   <div class="fs-sr-grid-item">
     <!-- Image -->
     <div
-      class="fs-sr-item__image-wrapper fs-sr-grid-item__image-wrapper"
+      :class="'fs-sr-item__image-wrapper' + (borderType === 'around-image' ? ' fs-sr-item-image-bordered' : '') + ' fs-sr-grid-item__image-wrapper'"
     >
       <fs-product-label
         :class="'fs-label--' + productLabelPosition + ' fs-sr-grid-item__product-label'"
@@ -1884,7 +1890,7 @@ flashsearch.searchResultsTemplates = {
   :md="24"
   :sm="24"
   :xs="24"
-  class="fs-sr-item-wrapper fs-sr-list-item-wrapper"
+  :class="'fs-sr-item-wrapper' + (borderType === 'around-grid' ? ' fs-sr-item-bordered' : '') + ' fs-sr-list-item-wrapper'"
   data-testid="list-view-item"
   @click="onClickItem"
 >
@@ -1894,6 +1900,7 @@ flashsearch.searchResultsTemplates = {
         <!-- Image -->
         <div
           class="fs-sr-item__image-wrapper fs-sr-list-item__image-wrapper"
+          :class="'fs-sr-item__image-wrapper' + (borderType === 'around-image' ? ' fs-sr-item-image-bordered' : '') + ' fs-sr-list-item__image-wrapper'"
         >
           <fs-product-label
             :class="'fs-label--' + productLabelPosition + ' fs-sr-list-item__product-label'"
