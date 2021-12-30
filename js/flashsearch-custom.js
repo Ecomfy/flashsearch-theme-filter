@@ -1491,8 +1491,8 @@ flashsearch.searchResultsTemplates = {
     />
   </a>
   <div
-    v-if="secondProductImage"
-    class="fs-product-image__hover-image-wrapper"
+    v-if="secondProductImage && displayImages === 'two-images'"
+    :class="'fs-product-image__hover-image-wrapper' + (hoverEffect ? ' fs-product-image-hover-effect-' + hoverEffect : '')"
   >
     <div
       class="fs-product-image__hover-image"
