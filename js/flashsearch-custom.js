@@ -218,7 +218,7 @@ flashsearch.searchResultsTemplates = {
   `,
 
   "fs-search-section": `
-<div class="fs-search-section">
+<div v-if="enableSearchPageHeader || enableSearchBox" class="fs-search-section">
   <!-- Skeleton: Search header -->
   <div
     v-if="isLoading && enableSearchPageHeader"
