@@ -1588,11 +1588,11 @@ flashsearch.searchResultsTemplates = {
 
   "fs-product-color": `
 <fs-tooltip
-  :title="showTooltip ? color: undefined"
+  :title="showTooltip ? tooltipContent: undefined"
   overlay-class-name="fs-filter-option__tooltip"
 >
   <span @mouseover="onSelect" class="fs-product-color" :class="{'fs-product-color--selected': isSelected, ['fs-product-color-' + swatchStyle]: true}">
-    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color), ['fs-product-color-' + swatchSize]: true}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : {'background-color': color}">
+    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color), ['fs-product-color-' + swatchSize]: true}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : (color1 && color2) ? { background: 'linear-gradient(' + color1 + ' 50%, ' + color2 + ' 50%)' } : {'background-color': color}">
     </span>
   </span>
 </fs-tooltip>
@@ -1604,10 +1604,13 @@ flashsearch.searchResultsTemplates = {
   v-for="(color, index) in getVariantColors(product)"
   :key="index"
   :color="color"
+  :color1="getColor1(color)"
+  :color2="getColor2(color)"
   :is-selected="isSelectedItemColor(color)"
   @on-select="onSelectItemColor(color)"
   :show-tooltip="true"
-  :imageUrl="swatchLayoutType === 'swatch-variant-image' && getVariantsByColor(product, color).length > 0 ? getVariantsByColor(product, color)[0].image.originalSrc : undefined"
+  :tooltip-content="color"
+  :imageUrl="swatchLayoutType === 'swatch-variant-image' && getVariantsByColor(product, color).length > 0 ? getVariantsByColor(product, color)[0].image.originalSrc : getImageUrlByColor(color) ? getImageUrlByColor(color) : undefined"
   :swatchSize="swatchSize"
   :swatchStyle="swatchStyle"
 />
