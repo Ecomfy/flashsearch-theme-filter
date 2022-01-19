@@ -120,6 +120,7 @@ flashsearch.searchResultsTemplates = {
         :view-type="viewType"
         @collapse-filters="collapseFilters"
         @on-mobile-filters-icon-click="onMobileFiltersIconClick"
+        @on-filters-sidebar-icon-click="onFiltersSidebarIconClick"
       />
       <!-- Filters section: horizontal layout -->
       <fs-filters-section-horizontal
@@ -133,6 +134,14 @@ flashsearch.searchResultsTemplates = {
         :search-result="searchResult"
         :collapse-active-key="collapseActiveKey"
         :is-loading="isSearchLoading"
+      />
+      <!-- Filters section: filters sidebar layout-->
+      <fs-filters-section-filters-sidebar
+        v-if="isFiltersSidebarLayout && shouldShowFiltersSidebar"
+        :search-result="searchResult"
+        :visible="shouldShowFiltersSidebar"
+        @on-close="closeFiltersSidebar"
+        @show-results="showResultsOnFiltersSidebar"
       />
       <!-- Filters section: mobile layout -->
       <fs-filters-section-mobile
@@ -263,6 +272,7 @@ flashsearch.searchResultsTemplates = {
         :opened="isFilterIconOpened"
         @collapse-filters="collapseFilters"
         @on-mobile-filters-icon-click="onMobileFiltersIconClick"
+        @on-filters-sidebar-icon-click="onFiltersSidebarIconClick"
         :is-loading="isLoading"
       />
     </div>
@@ -363,6 +373,38 @@ flashsearch.searchResultsTemplates = {
   </div>
 </div>
   `,
+
+  "fs-filters-section-filters-sidebar": `
+  <div
+    class="fs-filters-section"
+  >
+    <fs-drawer
+      class="fs-filters-section-filters-sidebar"
+      placement="left"
+      :closable="true"
+      @close="onClose"
+      :visible="visible"
+    >
+      <template #title>
+        <span class="fs-filters-title-wrapper">
+          <span class="fs-filters-title">{{$t("searchResults.filter.filtersTitle")}}</span>
+          <fs-button-clear-all-filter-options type="text" />
+        </span>
+      </template>
+      <fs-filters :filters="searchResult.filters"/>
+      <div class="fs-filters__footer">
+        <fs-button
+          class="fs-filters__show-results"
+          type="primary"
+          size="large"
+          @click.prevent="showResults"
+        >
+          {{ $t("searchResults.filter.showResults", {count: (searchResult && searchResult.total > 0 ? searchResult.total  : 0)}) }}
+        </fs-button>
+      </div>
+    </fs-drawer>
+  </div>
+    `,
 
   "fs-filters-section-mobile": `
 <div
@@ -1231,6 +1273,19 @@ flashsearch.searchResultsTemplates = {
       </span>
     </div>
     <span class="fs-filters-icon__label" data-testid="sr-filter-label">{{$t("searchResults.toolbars.filters")}}</span>
+  </div>
+  <div
+    v-if="isFiltersSidebarLayout"
+    class="fs-filters-icon fs-filters-icon--sidebar"
+    data-testid="sr-filter-icon-sidebar"
+    @click="onFiltersSidebarIconClick"
+  >
+    <div class="fs-filters-icon__icons">
+      <span class="fs-filters-icon__icon-wrapper fs-icon-slider">
+        <fs-sliders-outlined />
+      </span>
+    </div>
+    <span class="fs-filters-icon__label" data-testid="sr-filter-label-mobile">{{$t("searchResults.toolbars.filters")}}</span>
   </div>
   <div
     class="fs-filters-icon fs-filters-icon--mobile"
