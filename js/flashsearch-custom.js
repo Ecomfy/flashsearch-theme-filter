@@ -380,6 +380,7 @@ flashsearch.searchResultsTemplates = {
   >
     <fs-drawer
       class="fs-filters-section-filters-sidebar"
+      :class="!!layoutType ? 'fs-filters-section-filters-sidebar-' + layoutType : undefined"
       placement="left"
       :closable="true"
       @close="onClose"
@@ -388,10 +389,10 @@ flashsearch.searchResultsTemplates = {
       <template #title>
         <span class="fs-filters-title-wrapper">
           <span class="fs-filters-title">{{$t("searchResults.filter.filtersTitle")}}</span>
-          <fs-button-clear-all-filter-options type="text" />
+          <fs-button-clear-all-filter-options v-if="!layoutType || layoutType === 'layout-1'" type="text" />
         </span>
       </template>
-      <fs-filters :filters="searchResult.filters"/>
+      <fs-filters :filters="searchResult.filters" :show-clear-btn-at-bottom-of-options="true" />
       <div class="fs-filters__footer">
         <fs-button
           class="fs-filters__show-results"
@@ -401,6 +402,7 @@ flashsearch.searchResultsTemplates = {
         >
           {{ $t("searchResults.filter.showResults", {count: (searchResult && searchResult.total > 0 ? searchResult.total  : 0)}) }}
         </fs-button>
+        <fs-button-clear-all-filter-options v-if="layoutType === 'layout-2'" />
       </div>
     </fs-drawer>
   </div>
@@ -412,6 +414,7 @@ flashsearch.searchResultsTemplates = {
 >
   <fs-drawer
     class="fs-filters-section-mobile"
+    :class="!!layoutType ? 'fs-filters-section-filters-sidebar-' + layoutType : undefined"
     placement="left"
     :closable="true"
     @close="closeMobileFilters"
@@ -420,7 +423,7 @@ flashsearch.searchResultsTemplates = {
     <template #title>
       <span class="fs-filters-title-wrapper">
         <span class="fs-filters-title">{{$t("searchResults.filter.filtersTitle")}}</span>
-        <fs-button-clear-all-filter-options type="text" />
+        <fs-button-clear-all-filter-options v-if="!layoutType || layoutType === 'layout-1'" type="text" />
       </span>
     </template>
     <fs-filters :filters="searchResult.filters" :isMobile="true" />
@@ -433,6 +436,7 @@ flashsearch.searchResultsTemplates = {
       >
         {{ $t("searchResults.filter.showResults", {count: (searchResult && searchResult.total > 0 ? searchResult.total  : 0)}) }}
       </fs-button>
+      <fs-button-clear-all-filter-options v-if="layoutType === 'layout-2'" />
     </div>
   </fs-drawer>
 </div>
@@ -571,7 +575,7 @@ flashsearch.searchResultsTemplates = {
             />
           </div>
         </template>
-        <fs-filter :filter="filter" :isMobile="isMobile" :show-clear-btn="isMobile" />
+        <fs-filter :filter="filter" :isMobile="isMobile" :show-clear-btn="isMobile || showClearBtnAtBottomOfOptions" />
       </fs-collapse-panel>
     </template>
   </fs-collapse>
