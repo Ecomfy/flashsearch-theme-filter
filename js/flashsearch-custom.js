@@ -1651,7 +1651,7 @@ flashsearch.searchResultsTemplates = {
   overlay-class-name="fs-filter-option__tooltip"
 >
   <span @mouseover="onSelect" class="fs-product-color" :class="{'fs-product-color--selected': isSelected, ['fs-product-color-' + swatchStyle]: true}">
-    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color), ['fs-product-color-' + swatchSize]: true}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : (color1 && color2) ? { background: 'linear-gradient(' + color1 + ' 50%, ' + color2 + ' 50%)' } : {'background-color': color}">
+    <span class="fs-product-color__value" :class="{'fs-product-color--has-border': fsUtils.isWhiteColor(color), ['fs-product-color-' + swatchSize]: true}" :style="imageUrl ? {'background-image': 'url(' + imageUrl + ')'} : (color1 && color2) ? { background: 'linear-gradient(' + color1 + ' 50%, ' + color2 + ' 50%)' } :  color1 ? {'background-color': color1} : {'background-color': color}">
     </span>
   </span>
 </fs-tooltip>
