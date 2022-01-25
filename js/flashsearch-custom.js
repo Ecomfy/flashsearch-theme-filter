@@ -2743,6 +2743,7 @@ flashsearch.instantSearchTemplates = {
     </div>
     <div class="fs-is-searchbar-mobile__input-form-wrapper">
       <form>
+        <fs-search-outlined/>
         <input
           class="fs-is-searchbar-mobile__input"
           :ref="el => inputRef = el"
