@@ -2308,13 +2308,24 @@ flashsearch.searchResultsTemplates = {
 <div class="fs-sr-paging">
   <fs-pagination
     v-if="isPagination"
+    :class="'fs-sr-pagination-' + paginationLayoutType"
     :default-current="1"
     :default-page-size="productsPerPage"
     :total="total"
     :current="current"
     @change="change"
     data-testid="sr-pa-pagination"
-  />
+  >
+  <template v-if="paginationLayoutType === 'layout-3'" #itemRender="{ page, type, originalElement }">
+      <a v-if="type === 'next'" class="fs-pagination-item-link">
+        {{$t("searchResults.pagination.next")}}
+      </a>
+      <a v-if="type === 'prev'" class="fs-pagination-item-link">
+        {{$t("searchResults.pagination.prev")}}
+      </a>
+      <renderVNode v-else :vnode="originalElement"></renderVNode>
+    </template>
+  </fs-pagination>
   <div v-else-if="isLoadMore && hasNextPage" class="fs-load-more-paging" data-testid="sr-pa-load-more">
     <fs-spin
       v-if="isLoadMoreFetching"
