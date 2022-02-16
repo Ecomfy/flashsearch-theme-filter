@@ -1660,19 +1660,30 @@ flashsearch.searchResultsTemplates = {
   "fs-product-colors": `
 <div class="fs-product-colors" v-if="getVariantColors(product).length > 0">
   <fs-product-color
-  v-for="(color, index) in getVariantColors(product)"
-  :key="index"
-  :color="color"
-  :color1="getColor1(color)"
-  :color2="getColor2(color)"
-  :is-selected="isSelectedItemColor(color)"
-  @on-select="onSelectItemColor(color)"
-  :show-tooltip="true"
-  :tooltip-content="color"
-  :imageUrl="swatchLayoutType === 'swatch-variant-image' && getVariantsByColor(product, color).length > 0 ? getVariantsByColor(product, color)[0].image.originalSrc : getImageUrlByColor(color) ? getImageUrlByColor(color) : undefined"
-  :swatchSize="swatchSize"
-  :swatchStyle="swatchStyle"
-/>
+    v-for="(color, index) in variantColorsToShow"
+    :key="index"
+    :color="color"
+    :color1="getColor1(color)"
+    :color2="getColor2(color)"
+    :is-selected="isSelectedItemColor(color)"
+    @on-select="onSelectItemColor(color)"
+    :show-tooltip="true"
+    :tooltip-content="color"
+    :imageUrl="swatchLayoutType === 'swatch-variant-image' && getVariantsByColor(product, color).length > 0 ? getVariantsByColor(product, color)[0].image.originalSrc : getImageUrlByColor(color) ? getImageUrlByColor(color) : undefined"
+    :swatchSize="swatchSize"
+    :swatchStyle="swatchStyle"
+  />
+  <fs-tooltip
+    v-if="moreCount > 0 && enableShowMore"
+    :title="isShowMore ? $t('searchResults.productItem.showMoreColors', {moreCount: moreCount}) : $t('searchResults.productItem.showLessColors', {moreCount: moreCount})"
+    overlay-class-name="fs-filter-option__tooltip"
+  >
+  <span class="fs-product-color fs-product-colors__more" :class="{['fs-product-color-' + swatchStyle]: true}" @click.prevent="isShowMore ? onShowMore() : onShowLess()">
+    <span class="fs-product-color__value" :class="{['fs-product-color-' + swatchStyle]: true}">
+    {{isShowMore ? ("+" + moreCount) : ("-" + moreCount)}}
+    </span>
+  </span>
+</fs-tooltip>
 </div>
     `,
 
@@ -1975,6 +1986,9 @@ flashsearch.searchResultsTemplates = {
        :swatch-size="productColorSwatchSize"
        :swatch-style="productColorSwatchStyle"
        :color-variant-names="productColorOptionNames"
+       :enable-show-more="productColorShowMoreEnable"
+       :show-more-limit="productColorShowMoreLimit"
+       :show-more-action="productColorShowMoreAction"
       />
     </div>
   </div>
@@ -2105,6 +2119,9 @@ flashsearch.searchResultsTemplates = {
             :swatch-size="productColorSwatchSize"
             :swatch-style="productColorSwatchStyle"
             :color-variant-names="productColorOptionNames"
+            :enable-show-more="productColorShowMoreEnable"
+            :show-more-limit="productColorShowMoreLimit"
+            :show-more-action="productColorShowMoreAction"
          />
         </div>
       </fs-col>
