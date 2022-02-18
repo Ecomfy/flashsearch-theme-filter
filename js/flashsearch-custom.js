@@ -1694,12 +1694,19 @@ flashsearch.searchResultsTemplates = {
     `,
   
   "fs-wishlist": `
+<!-- Growave -->
 <div v-if="isGrowaveWishlist" :class="'ssw-faveiticon' + ' sswfaveicon' + product.id + ' fs-wishlist fs-wishlist-growave' + ' fs-wishlist-shape-' + shape">
-  <i :data-product-id="product.id" data-count="0"
-        class="ssw-icon-heart-o ssw-fave-icon ssw-wishlist-element ssw-not-synch" :data-params="growave.dataParams" :title="growave.addToWishlistText"></i>
+  <i v-bind="growave.attrs" class="ssw-icon-heart-o ssw-fave-icon ssw-wishlist-element ssw-not-synch"></i>
   <span class="faves-count">...</span>
 </div> 
+<!-- Wishlist plus -->
 <button v-if="isWishlistPlus" :class="'swym-button swym-add-to-wishlist-view-product' + ' fs-wishlist fs-wishlist-wishlistplus' + ' fs-wishlist-shape-' + shape" data-swaction="addToWishlist"  :data-product-id="product.id"></button>
+<!-- Wishlist Hero -->
+<div v-if="isWishlistHero" :class="'fs-wishlisthero-wrapper' + ' fs-wishlist-shape-' + shape" v-bind="wishlistHero.attrs"></div>
+<!-- Wishlist King -->
+<div v-if="isWishlistKing" :class="'fs-wishlistking-wrapper' + ' fs-wishlist-shape-' + shape" v-html="wishlistKing.collectionButtonHtml"></div>
+<!-- Smart wishlist -->
+<span v-if="isSmartWishlist" :class="'smartwishlist' + ' fs-wishlist fs-wishlist-smartwishlist' + ' fs-wishlist-shape-' + shape" :data-product="product.id" :data-variant="currentVariant.id"></span>
   `,
 
   "fs-quick-view-item": `
