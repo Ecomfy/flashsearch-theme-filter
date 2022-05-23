@@ -1575,7 +1575,8 @@ flashsearch.searchResultsTemplates = {
   <a class="fs-product-image__main-image-wrapper" :href="productUrl">
     <div
       class="fs-product-image__main-image"
-      :style="{'background-image': 'url(' + mainProductImage + ')', 'padding-top': (1/mainProductImageAspectRatio)*100 + '%' }"
+      v-lazy:background-image="mainProductImage"
+      :style="{'padding-top': (1/mainProductImageAspectRatio)*100 + '%' }"
     />
   </a>
   <div
@@ -1584,7 +1585,7 @@ flashsearch.searchResultsTemplates = {
   >
     <div
       class="fs-product-image__hover-image"
-      :style="{'background-image': 'url(' + secondProductImage + ')'}"
+      v-lazy:background-image="secondProductImage"
     />
   </div>
 </div>
