@@ -2366,6 +2366,7 @@ flashsearch.searchResultsTemplates = {
     :current="current"
     @change="change"
     data-testid="sr-pa-pagination"
+    hide-on-single-page
   >
   <template v-if="paginationLayoutType === 'layout-3'" #itemRender="{ page, type, originalElement }">
       <a v-if="type === 'next'" class="fs-pagination-item-link">
