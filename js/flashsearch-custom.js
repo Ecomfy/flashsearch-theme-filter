@@ -2583,7 +2583,6 @@ flashsearch.instantSearchTemplates = {
   "fs-is-product-items": `
 <div v-if="isNotEmpty" class="fs-is-item-wrapper fs-is-product-items-wrapper">
   <fs-is-item-label :label='$t("instantSearch.labels.products")'/>
-  <fs-is-did-you-mean :suggest-results="suggestResults"/>
   <div class="fs-is-product-items-container">
     <fs-is-product-item
       v-for="(product, index) in suggestResults.products"
