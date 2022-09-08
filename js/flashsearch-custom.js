@@ -197,7 +197,7 @@ flashsearch.searchResultsTemplates = {
   </fs-layout>
 </div>
     `,
-  
+
   "fs-collection-page-heading": `
 <div v-if="enable" class="fs-coll-page-heading">
   <div class="fs-coll-page-heading__image" :style="{'background-image': 'url(' + imageUrl + ')'}" />
@@ -1709,7 +1709,7 @@ flashsearch.searchResultsTemplates = {
   <span class="fs-product-sizes__text">{{getVariantSizes(product).join(", ")}}</span>
 </div>
     `,
-  
+
   "fs-wishlist": `
 <!-- Growave -->
 <div v-if="isGrowaveWishlist" :class="'ssw-faveiticon' + ' sswfaveicon' + product.id + ' fs-wishlist fs-wishlist-growave' + ' fs-wishlist-shape-' + shape">
@@ -2243,7 +2243,7 @@ flashsearch.searchResultsTemplates = {
 </fs-row>
     `,
 
-    "fs-search-results-views": `
+  "fs-search-results-views": `
 <div v-if="enable" class="fs-sr-views">
   <div class="fs-sr-views-screen fs-sr-views-screen--desktop">
     <span
@@ -2871,4 +2871,3 @@ flashsearch.event.on("initInstantSearch", function (app) {
       })
    */
 });
-
