@@ -1914,6 +1914,7 @@ flashsearch.searchResultsTemplates = {
     <!-- Image -->
     <div
       :class="'fs-sr-item__image-wrapper' + (borderType === 'around-image' ? ' fs-sr-item-image-bordered' : '') + ' fs-sr-grid-item__image-wrapper'"
+      :data-product-id="product.id"
     >
       <fs-wishlist :product="product" :current-variant="currentVariant"/>
       <fs-product-label
@@ -2038,6 +2039,7 @@ flashsearch.searchResultsTemplates = {
         <div
           class="fs-sr-item__image-wrapper fs-sr-list-item__image-wrapper"
           :class="'fs-sr-item__image-wrapper' + (borderType === 'around-image' ? ' fs-sr-item-image-bordered' : '') + ' fs-sr-list-item__image-wrapper'"
+          :data-product-id="product.id"
         >
           <fs-wishlist :product="product" :current-variant="currentVariant"/>
           <fs-product-label
