@@ -138,18 +138,20 @@ flashsearch.searchResultsTemplates = {
       />
       <!-- Filters section: filters sidebar layout-->
       <fs-filters-section-filters-sidebar
-        v-if="isFiltersSidebarLayout && shouldShowFiltersSidebar"
+        v-show="isSearchLoading || (isFiltersSidebarLayout && shouldShowFiltersSidebar)"
         :search-result="searchResult"
-        :visible="shouldShowFiltersSidebar"
+        :visible="isSearchLoading || shouldShowFiltersSidebar"
+        :is-loading="isSearchLoading"
         @on-close="closeFiltersSidebar"
         @show-results="showResultsOnFiltersSidebar"
       />
       <!-- Filters section: mobile layout -->
       <fs-filters-section-mobile
         :search-result="searchResult"
-        :should-show-mobile-filter="shouldShowMobileFilter"
+        :should-show-mobile-filter="isSearchLoading || shouldShowMobileFilter"
         @close-mobile-filters="closeMobileFilters"
         @show-results="showResults"
+        :is-loading="isSearchLoading"
       />
     </fs-layout>
     <!-- Filter by: horizontal layout only -->
@@ -381,7 +383,7 @@ flashsearch.searchResultsTemplates = {
   >
     <fs-drawer
       class="fs-filters-section-filters-sidebar"
-      :class="!!layoutType ? 'fs-filters-section-filters-sidebar-' + layoutType : undefined"
+      :class="{['fs-filters-section-filters-sidebar-' + layoutType] : !!layoutType, 'fs-hide': isLoading}"
       placement="left"
       :closable="true"
       @close="onClose"
@@ -415,7 +417,7 @@ flashsearch.searchResultsTemplates = {
 >
   <fs-drawer
     class="fs-filters-section-mobile"
-    :class="!!layoutType ? 'fs-filters-section-filters-sidebar-' + layoutType : undefined"
+    :class="{['fs-filters-section-filters-sidebar-' + layoutType] : !!layoutType, 'fs-hide': isLoading}"
     placement="left"
     :closable="true"
     @close="closeMobileFilters"
