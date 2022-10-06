@@ -138,7 +138,7 @@ flashsearch.searchResultsTemplates = {
       />
       <!-- Filters section: filters sidebar layout-->
       <fs-filters-section-filters-sidebar
-        v-show="isSearchLoading || (isFiltersSidebarLayout && shouldShowFiltersSidebar)"
+        v-show="isFiltersSidebarLayout && (isSearchLoading || shouldShowFiltersSidebar)"
         :search-result="searchResult"
         :visible="isSearchLoading || shouldShowFiltersSidebar"
         :is-loading="isSearchLoading"
