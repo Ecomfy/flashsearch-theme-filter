@@ -1934,7 +1934,7 @@ flashsearch.searchResultsTemplates = {
       />
       <fs-product-image
         class="fs-sr-grid-item__image"
-        :product-url="product.url"
+        :product-url="productUrlWithinCollection"
         :main-product-image="mainProductImage"
         :second-product-image="secondProductImage"
         :main-product-image-aspect-ratio="isAspectRatioAdaptToImage ? mainProductImageAspectRatio : undefined"
@@ -1967,7 +1967,7 @@ flashsearch.searchResultsTemplates = {
     <div class="fs-sr-grid-item__info">
       <!-- Title -->
       <fs-product-title
-        :url="product.url"
+        :url="productUrlWithinCollection"
         :title="product.title"
         class="fs-sr-grid-item__title"
       />
@@ -2059,7 +2059,7 @@ flashsearch.searchResultsTemplates = {
           />
           <fs-product-image
             class="fs-sr-list-item__image"
-            :product-url="product.url"
+            :product-url="productUrlWithinCollection"
             :main-product-image="mainProductImage"
             :second-product-image="secondProductImage"
             :main-product-image-aspect-ratio="isAspectRatioAdaptToImage ? mainProductImageAspectRatio : undefined"
@@ -2101,7 +2101,7 @@ flashsearch.searchResultsTemplates = {
         <div class="fs-sr-list-item__info">
           <!-- Title -->
           <fs-product-title
-            :url="product.url"
+            :url="productUrlWithinCollection"
             :title="product.title"
             class="fs-sr-list-item__title"
           />
