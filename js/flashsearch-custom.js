@@ -113,7 +113,7 @@ flashsearch.searchResultsTemplates = {
     <fs-layout>
       <!-- Toolbar: sortBy, views, open filters -->
       <fs-toolbar
-        v-if="!noMatchingFound"
+        v-if="!(noMatchingFound && isSearchPage)"
         class="fs-main__toolbar"
         :is-filter-icon-opened="isFilterIconOpened"
         :is-loading="isSearchLoading"
@@ -131,7 +131,7 @@ flashsearch.searchResultsTemplates = {
       />
       <!-- Filters section: horizontal style 2 layout -->
       <fs-filters-section-horizontal-style-2
-        v-if="isHorizontalStyle2Layout && !noMatchingFound"
+        v-if="isHorizontalStyle2Layout"
         :search-result="searchResult"
         :collapse-active-key="collapseActiveKey"
         :is-loading="isSearchLoading"
@@ -160,7 +160,7 @@ flashsearch.searchResultsTemplates = {
     </fs-layout>
     <fs-layout>
       <!-- Filters section: vertical layout -->
-      <fs-layout-sider v-if="isVerticalLeftLayout && !noMatchingFound" :width="270">
+      <fs-layout-sider v-if="isVerticalLeftLayout" :width="270">
         <fs-filters-section-vertical :is-loading="isSearchLoading" :searchResult="searchResult"/>
       </fs-layout-sider>
       <fs-layout-content>
