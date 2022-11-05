@@ -1757,7 +1757,7 @@ flashsearch.searchResultsTemplates = {
         :enable-new-label="enableNewLabel"
         :shape="productLabelShape"
       />
-      <fs-carousel arrows dot-position="bottom" :ref="el => caroRef = el">
+      <fs-carousel arrows dot-position="bottom" ref="caroRef">
         <template #prevArrow>
           <div
             class="fs-quickview__slick-arrow fs-quickview__slick-arrow-prev"
