@@ -101,7 +101,7 @@ flashsearch.searchResultsTemplates = {
       <fs-search-section
         v-if="isSearchPage"
         :is-loading="isSearchLoading"
-        :enable-search-page-header="enableSearchPageHeader"
+        :enable-search-page-header="enableSearchPageHeader && !isSearchPageWithoutSearchParams"
         :total-products="totalProducts"
         :query="query"
         :enable-search-box="enableSearchBox"
@@ -110,7 +110,7 @@ flashsearch.searchResultsTemplates = {
         @on-change-sb-query="onChangeQuery"
       />
     </fs-layout-header>
-    <fs-layout>
+    <fs-layout v-if="!isSearchPageWithoutSearchParams">
       <!-- Toolbar: sortBy, views, open filters -->
       <fs-toolbar
         v-if="!(noMatchingFound && isSearchPage)"
@@ -163,7 +163,7 @@ flashsearch.searchResultsTemplates = {
       <fs-layout-sider v-if="isVerticalLeftLayout" :width="270">
         <fs-filters-section-vertical :is-loading="isSearchLoading" :searchResult="searchResult"/>
       </fs-layout-sider>
-      <fs-layout-content>
+      <fs-layout-content v-if="!isSearchPageWithoutSearchParams">
         <!-- Empty page -->
         <fs-sr-empty-page
           v-if="noMatchingFound"
