@@ -1633,12 +1633,12 @@ flashsearch.searchResultsTemplates = {
   `,
 
   "fs-sr-review-rate": `
-<div class="fs-sr-review-rate" data-testid="sr-review-rate">
+<div v-if="count > 0" class="fs-sr-review-rate" data-testid="sr-review-rate">
   <fs-review-rate
     class="fs-sr-review-rate__review-rate"
     allow-half
     :value="rate"
-    :text="count === 0 ? noReviewsText : (count > 1 ? (count + ' ' + reviewsText) : (count + ' ' + reviewText))"
+    :text="count === 0 ? '' : (count > 1 ? (count + ' ' + reviewsText) : (count + ' ' + reviewText))"
   />
 </div>
   `,
@@ -2784,7 +2784,7 @@ flashsearch.instantSearchTemplates = {
   `,
 
   "fs-is-review-rate": `
-<div class="fs-is-review-rate" data-testid="is-review-rate">
+<div v-if="count > 0" class="fs-is-review-rate" data-testid="is-review-rate">
   <fs-review-rate
     class="fs-is-review-rate__review-rate"
     allow-half
